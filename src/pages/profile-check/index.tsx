@@ -1,8 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
-import { Text } from "../../components/Text";
+import { Field } from "../../components/Field";
+import { SecundaryButton } from "../../components/SecundaryButton";
 import { Quest } from "./components/Quest";
+import { Result } from "./components/Result";
+import { useCheck } from "../../context/Check";
+
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const GET_INIT = gql`
   query {
@@ -16,23 +21,20 @@ export interface CategoryID {
   id?: number;
   key?: number;
   level?: number;
-}
-
-export interface ResponseID {
-  id?: number;
-}
-
-export interface CategoryInputProps {
-  id?: number;
-  setCategory: Dispatch<SetStateAction<CategoryID | any>>;
+  alternative?: number;
 }
 
 export function ProfileCheck() {
   const { data, loading } = useQuery<{ categoryByDescription: CategoryID }>(
     GET_INIT
   );
+
+  const [category, setCategory] = useState<CategoryID | any>();
   const [categories, setCategories] = useState<CategoryID[]>([]);
-  const [category, setCategory] = useState<CategoryID>();
+
+  const { endPoint } = useCheck();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     category &&
@@ -51,7 +53,7 @@ export function ProfileCheck() {
       });
   }, [category]);
 
-  if (loading) return <Text>Carregando...</Text>;
+  if (loading) return <p>Carregando...</p>;
 
   if (data && !category) {
     setCategory(data.categoryByDescription);
@@ -66,13 +68,39 @@ export function ProfileCheck() {
   }
 
   return (
-    <div>
+    <div className="md:w-[400px] w-[100%] flex flex-col gap-4">
       {category && (
         <Quest key={category.id} id={category.id} setCategory={setCategory} />
       )}
-      {categories.length > 1 && <Button onClick={handlePrev}>Voltar</Button>}
-      <strong>{categories.length}</strong>
-      <strong>{JSON.stringify(categories)}</strong>
+      {category?.id === 14 && (
+        <div className="py-4 md:w-[400px] w-[100%] flex flex-col text-center gap-4 px-3 bg-gray-800 rounded">
+          {categories.map((category, index) => {
+            {
+              if (index > 0)
+                return (
+                  <Result
+                    key={category.id}
+                    id={category.key}
+                    alternative={category.alternative}
+                  />
+                );
+            }
+          })}
+        </div>
+      )}
+      <Field>
+        {categories.length > 1 && <Button onClick={handlePrev}>Voltar</Button>}
+        {category?.id === 14 && (
+          <SecundaryButton
+            onClick={() => {
+              endPoint(categories);
+              navigate("/desktop");
+            }}
+          >
+            Confirmar
+          </SecundaryButton>
+        )}
+      </Field>
     </div>
   );
 }

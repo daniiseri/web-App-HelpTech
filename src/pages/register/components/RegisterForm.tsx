@@ -7,6 +7,8 @@ import { gql, useMutation } from "@apollo/client";
 import { FormEvent, useState } from "react";
 import { useAuth } from "../../../context/Auth";
 
+import { AiOutlineUserAdd } from "react-icons/ai";
+
 const CREATE_USER = gql`
   mutation ($newUserInput: NewUserInput!) {
     createUser(newUserInput: $newUserInput)
@@ -62,6 +64,7 @@ export function RegisterForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button>
+        <AiOutlineUserAdd />
         <Text>Cadastre-se</Text>
       </Button>
     </Form>

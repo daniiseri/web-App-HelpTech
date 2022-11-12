@@ -2,6 +2,10 @@ import { Card } from "../../../components/Card";
 import { ImageCard } from "../../../components/ImageCard";
 import { Text } from "../../../components/Text";
 
+import { ImPriceTags } from "react-icons/im";
+
+import { Field } from "../../../components/Field";
+
 export interface HardwareProps {
   description: string;
   price: number;
@@ -18,9 +22,13 @@ export function HardwareCard(props: HardwareProps) {
           <p className="hover:text-bronw-500">{props.description}</p>
         </Text>
       </a>
-      <Text>
-        <p>R$ {props.price}</p>
-      </Text>
+
+      <Field>
+        <ImPriceTags className="text-bronw-100" />
+        <Text>
+          <p>R$ {props.price}</p>
+        </Text>
+      </Field>
     </Card>
   );
 }

@@ -38,7 +38,7 @@ export function Alternatives({ questId, ...props }: AlternativeInputProps) {
               id={`${alternative.id}`}
               type="radio"
               name={`${questId}`}
-              value={`${alternative.idcategory},${alternative.level}`}
+              value={`${alternative.id},${alternative.idcategory},${alternative.level}`}
               {...props}
             />
             <label htmlFor={`${alternative.id}`}>

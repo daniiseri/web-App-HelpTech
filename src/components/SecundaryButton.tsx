@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function SecundaryButton({ children, ...props }: ButtonProps) {
   return (
     <button
-      className=" flex-1 text-bronw-100 bg-bronw-500 hover:bg-bronw-300 px-4 py-3 rounded"
+      className=" flex-1 text-bronw-100 bg-bronw-500 hover:bg-bronw-300 px-4 py-3 flex items-center gap-3 rounded"
       {...props}
     >
       {children}

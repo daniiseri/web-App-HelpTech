@@ -8,6 +8,9 @@ import { SecundaryButton } from "../../../components/SecundaryButton";
 import { gql, useMutation } from "@apollo/client";
 import { GET_CATEGORY } from "..";
 
+import { AiFillSave } from "react-icons/ai";
+import { RiDeleteBinFill } from "react-icons/ri";
+
 const DELETE_CATEGORY = gql`
   mutation ($id: Float!) {
     deleteCategory(id: $id)
@@ -62,8 +65,14 @@ export function GetCategory(props: CategoryProps) {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <Button onClick={handleUpdate}>Salvar</Button>
-      <SecundaryButton onClick={handleDelete}>Remover</SecundaryButton>
+      <Button onClick={handleUpdate}>
+        <AiFillSave />
+        Salvar
+      </Button>
+      <SecundaryButton onClick={handleDelete}>
+        <RiDeleteBinFill />
+        Remover
+      </SecundaryButton>
     </Form>
   );
 }

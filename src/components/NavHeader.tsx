@@ -2,6 +2,9 @@ import { Header } from "./Header";
 import { NavLink } from "react-router-dom";
 import { Text } from "./Text";
 
+import { AiOutlineUser, AiFillHome } from "react-icons/ai";
+import { Dispatch, SetStateAction } from "react";
+
 import { useAuth } from "../context/Auth";
 
 function NoAuth() {
@@ -11,7 +14,7 @@ function NoAuth() {
         to="/"
         className={({ isActive }) => (isActive ? "activeStyle" : "")}
       >
-        <Text>Home</Text>
+        <AiFillHome className="text-bronw-100" />
       </NavLink>
       <NavLink
         to="/login"
@@ -25,43 +28,62 @@ function NoAuth() {
       >
         <Text>Register</Text>
       </NavLink>
-      <NavLink
-        to="/help"
-        className={({ isActive }) => (isActive ? "activeStyle" : "")}
-      >
-        <Text>Help</Text>
-      </NavLink>
     </Header>
   );
 }
 
-function Auth() {
+interface AuthProps {
+  setHidden: Dispatch<SetStateAction<boolean>>;
+}
+
+function Auth({ setHidden }: AuthProps) {
+  const { roles } = useAuth();
+
   return (
     <Header>
       <NavLink
-        to="/category"
+        to="/"
         className={({ isActive }) => (isActive ? "activeStyle" : "")}
       >
-        <Text>Category</Text>
+        <AiFillHome className="text-bronw-100" />
       </NavLink>
-      <NavLink
-        to="/quest"
-        className={({ isActive }) => (isActive ? "activeStyle" : "")}
+      {roles == "Admin" && (
+        <>
+          <NavLink
+            to="/category"
+            className={({ isActive }) => (isActive ? "activeStyle" : "")}
+            onClick={() => setHidden(true)}
+          >
+            <Text>Category</Text>
+          </NavLink>
+          <NavLink
+            to="/quest"
+            className={({ isActive }) => (isActive ? "activeStyle" : "")}
+            onClick={() => setHidden(true)}
+          >
+            <Text>Quest</Text>
+          </NavLink>
+          <NavLink
+            to="/alternative"
+            className={({ isActive }) => (isActive ? "activeStyle" : "")}
+            onClick={() => setHidden(true)}
+          >
+            <Text>Alternative</Text>
+          </NavLink>
+        </>
+      )}
+      <div
+        className="bg-bronw-100 p-1 rounded-[50%]"
+        onClick={() => setHidden((prevState) => (prevState ? false : true))}
       >
-        <Text>Quest</Text>
-      </NavLink>
-      <NavLink
-        to="/alternative"
-        className={({ isActive }) => (isActive ? "activeStyle" : "")}
-      >
-        <Text>Alternative</Text>
-      </NavLink>
+        <AiOutlineUser className="text-gray-900" />
+      </div>
     </Header>
   );
 }
 
-export function NavHeader() {
+export function NavHeader({ setHidden }: AuthProps) {
   const { token } = useAuth();
 
-  return <>{token ? <Auth /> : <NoAuth />}</>;
+  return <>{token ? <Auth setHidden={setHidden} /> : <NoAuth />}</>;
 }

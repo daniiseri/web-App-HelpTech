@@ -3,11 +3,14 @@ import { HardwareCard } from "../components/HardwaresCard";
 import { HardwareProps } from "../components/HardwaresCard";
 import { NavHeader } from "../components/NavHeader";
 
+import { useCheck } from "../../../context/Check";
+
 export function HardDisc() {
   const [hardDisc, setHardDisc] = useState<HardwareProps[]>([]);
+  const { response } = useCheck();
 
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/hard-disc")
+    fetch(`https://api-puppeteer.herokuapp.com/hard-disc/${response}`)
       .then((response) => response.json())
       .then((data) => setHardDisc(data));
   }, []);

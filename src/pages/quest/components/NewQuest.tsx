@@ -8,6 +8,8 @@ import { Text } from "../../../components/Text";
 
 import { GET_QUEST } from "../index";
 
+import { CgInsertAfterO } from "react-icons/cg";
+
 const CREATE_QUEST = gql`
   mutation ($idCategory: Float!, $description: String!) {
     createQuest(idCategory: $idCategory, description: $description)
@@ -51,6 +53,7 @@ export function NewQuest() {
         onChange={(e) => setCategory(parseFloat(e.target.value))}
       />
       <Button type="submit">
+        <CgInsertAfterO />
         <Text>Criar</Text>
       </Button>
     </Form>

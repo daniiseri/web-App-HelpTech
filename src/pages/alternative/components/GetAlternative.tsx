@@ -13,6 +13,9 @@ import { GET_ALTERNATIVE } from "../index";
 
 import { gql, useMutation } from "@apollo/client";
 
+import { AiFillSave } from "react-icons/ai";
+import { RiDeleteBinFill } from "react-icons/ri";
+
 const DELETE_ALTERNATIVE = gql`
   mutation ($id: Float!) {
     deleteAlternative(id: $id)
@@ -121,8 +124,14 @@ export function GetAlternative({
         onChange={(e) => setCategory(parseFloat(e.target.value))}
       />
 
-      <Button onClick={handleUpdate}>Salvar</Button>
-      <SecundaryButton onClick={handleDelete}>Remover</SecundaryButton>
+      <Button onClick={handleUpdate}>
+        <AiFillSave />
+        Salvar
+      </Button>
+      <SecundaryButton onClick={handleDelete}>
+        <RiDeleteBinFill />
+        Remover
+      </SecundaryButton>
     </Form>
   );
 }

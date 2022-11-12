@@ -5,6 +5,8 @@ import { Button } from "../../../components/Button";
 import { Form } from "../../../components/Form";
 import { Input } from "../../../components/Input";
 
+import { CgInsertAfterO } from "react-icons/cg";
+
 const CREATE_CATEGORY = gql`
   mutation ($newCategoryInput: NewCategoryInput!) {
     createCategory(newCategoryInput: $newCategoryInput)
@@ -41,7 +43,10 @@ export function NewCategory() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <Button>Criar</Button>
+      <Button>
+        <CgInsertAfterO />
+        Criar
+      </Button>
     </Form>
   );
 }

@@ -3,11 +3,14 @@ import { HardwareCard } from "../components/HardwaresCard";
 import { HardwareProps } from "../components/HardwaresCard";
 import { NavHeader } from "../components/NavHeader";
 
+import { useCheck } from "../../../context/Check";
+
 export function Processor() {
   const [processor, setProcessor] = useState<HardwareProps[]>([]);
+  const { response } = useCheck();
 
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/processor")
+    fetch(`https://api-puppeteer.herokuapp.com/processor/${response}`)
       .then((response) => response.json())
       .then((data) => setProcessor(data));
   }, []);

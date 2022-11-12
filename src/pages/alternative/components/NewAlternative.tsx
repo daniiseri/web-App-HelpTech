@@ -7,6 +7,8 @@ import { Form } from "../../../components/Form";
 import { Input } from "../../../components/Input";
 import { QuestList } from "../../../components/QuestList";
 
+import { CgInsertAfterO } from "react-icons/cg";
+
 const CREATE_ALTERNATIVE = gql`
   mutation (
     $idQuest: Float!
@@ -81,7 +83,10 @@ export function NewAlternative() {
         onChange={(e) => setCategory(parseFloat(e.target.value))}
       />
 
-      <Button type="submit">Criar</Button>
+      <Button type="submit">
+        <CgInsertAfterO />
+        Criar
+      </Button>
     </Form>
   );
 }

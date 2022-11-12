@@ -10,6 +10,9 @@ import { SecundaryButton } from "../../../components/SecundaryButton";
 import { CategoryList } from "../../../components/CategoryList";
 import { GET_QUEST } from "..";
 
+import { AiFillSave } from "react-icons/ai";
+import { RiDeleteBinFill } from "react-icons/ri";
+
 const DELETE_QUEST = gql`
   mutation ($id: Float!) {
     deleteQuest(id: $id)
@@ -83,9 +86,11 @@ export function GetQuest(props: QuestProps) {
       </Field>
 
       <Button onClick={handleUpdate}>
+        <AiFillSave />
         <Text>Salvar</Text>
       </Button>
       <SecundaryButton onClick={handleDelete}>
+        <RiDeleteBinFill />
         <Text>Remover</Text>
       </SecundaryButton>
     </Form>

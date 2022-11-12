@@ -3,11 +3,15 @@ import { HardwareCard } from "../components/HardwaresCard";
 import { HardwareProps } from "../components/HardwaresCard";
 import { NavHeader } from "../components/NavHeader";
 
+import { useCheck } from "../../../context/Check";
+
 export function VideoCard() {
   const [videoCard, setVideoCard] = useState<HardwareProps[]>([]);
 
+  const { response } = useCheck();
+
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/video-card")
+    fetch(`https://api-puppeteer.herokuapp.com/video-card/${response}`)
       .then((response) => response.json())
       .then((data) => setVideoCard(data));
   }, []);
