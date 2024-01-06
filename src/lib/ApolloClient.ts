@@ -1,26 +1,27 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { ApolloClient, ApolloLink, concat, createHttpLink, InMemoryCache } from "@apollo/client";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000",
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
-  const roles = localStorage.getItem("roles");
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers = {} }) => {
+    const token = localStorage.getItem("token");
+  
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token.replace(/"/g, '')}` : "",
+      },
+    };
+  });
 
-  return {
-    headers: {
-      ...headers,
-      authorization: token
-        ? `Bearer ${JSON.parse(token)} ${JSON.parse(roles || "")}`
-        : "",
-    },
-  };
-});
+  return forward(operation)
+})
+
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: concat(authMiddleware, httpLink),
   cache: new InMemoryCache(),
 });
 

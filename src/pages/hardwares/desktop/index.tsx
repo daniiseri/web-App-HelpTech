@@ -7,7 +7,7 @@ export function Desktop() {
   const [desktop, setDesktop] = useState<HardwareProps[]>([]);
 
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/desktop")
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/desktop`)
       .then((response) => response.json())
       .then((data) => setDesktop(data));
   }, []);

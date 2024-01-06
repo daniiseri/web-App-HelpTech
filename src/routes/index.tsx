@@ -13,6 +13,7 @@ import { Help } from "../pages/help";
 import { Text } from "../components/Text";
 
 import { AiFillGithub, AiOutlineWhatsApp } from "react-icons/ai";
+import { HiOutlineAcademicCap } from "react-icons/hi2";
 
 export function Routes() {
   const { token } = useAuth();
@@ -34,6 +35,14 @@ export function Routes() {
         <div className="flex flex-col flex-wrap items-center gap-3 p-4">
           <Text>CONTATO</Text>
           <Help />
+          <a
+            className="flex gap-3 items-center"
+            href="https://portfolio-daniiseri.vercel.app/"
+            target={"_blank"}
+          >
+            <HiOutlineAcademicCap className="text-bronw-100" />
+            <Text>Portflio</Text>
+          </a>
           <a
             className="flex gap-3 items-center hover:cursor-pointer"
             target={"_blank"}

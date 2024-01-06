@@ -9,8 +9,11 @@ export function Memory() {
   const [memory, setMemory] = useState<HardwareProps[]>([]);
   const { response } = useCheck();
 
+  console.log('MMEORY = ', memory);
+  
+
   useEffect(() => {
-    fetch(`https://api-puppeteer.herokuapp.com/memory/${response}`)
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/memory/${response}`)
       .then((response) => response.json())
       .then((data) => setMemory(data));
   }, []);

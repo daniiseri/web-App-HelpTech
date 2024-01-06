@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export function Container({ children }: ContainerProps) {
   return (
-    <div className=" max-w-7xl flex-1 flex justify-around flex-wrap gap-4 bg-tranparent">
+    <div className=" w-screen max-w-7xl flex-1 flex flex-col flex-wrap gap-4 bg-tranparent items-center">
       {children}
     </div>
   );

@@ -7,7 +7,7 @@ export function Motherboard() {
   const [motherboard, setMotherboard] = useState<HardwareProps[]>([]);
 
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/motherboard")
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/motherboard`)
       .then((response) => response.json())
       .then((data) => setMotherboard(data));
   }, []);

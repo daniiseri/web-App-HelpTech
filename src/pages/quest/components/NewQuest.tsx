@@ -11,8 +11,8 @@ import { GET_QUEST } from "../index";
 import { CgInsertAfterO } from "react-icons/cg";
 
 const CREATE_QUEST = gql`
-  mutation ($idCategory: Float!, $description: String!) {
-    createQuest(idCategory: $idCategory, description: $description)
+  mutation CreateQuest($idCategory: Float!, $newQuestData: NewQuestInput!) {
+    createQuest(idCategory: $idCategory, newQuestData: $newQuestData)
   }
 `;
 
@@ -25,9 +25,11 @@ export function NewQuest() {
   async function handle(event: FormEvent) {
     event.preventDefault();
 
+    const newQuestData = { description }
+
     await create({
       variables: {
-        description,
+        newQuestData,
         idCategory: category,
       },
       onError: ({ message }) => alert(message),

@@ -25,7 +25,7 @@ export function Auth() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="profile" element={<Profile />} />
-      {roles == "Admin" && (
+      {roles?.find(({ description }) => description === "Admin") && (
         <>
           <Route path="/category" element={<Category />} />
           <Route path="/quest" element={<Quest />} />

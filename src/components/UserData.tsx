@@ -22,14 +22,14 @@ export function UserData({ setHidden }: UserDataProps) {
       <Field>
         <AiOutlineUser className="text-bronw-100" />
         <Text>
-          <p>{user.name}</p>
+          <p>{user?.name}</p>
         </Text>
       </Field>
 
       <Field>
         <AiOutlineMail className="text-bronw-100" />
         <Text>
-          <p>{user.email}</p>
+          <p>{user?.email}</p>
         </Text>
       </Field>
 

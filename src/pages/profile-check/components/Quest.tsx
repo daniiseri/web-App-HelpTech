@@ -1,6 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { CategoryID } from "..";
+import { ChangeEvent } from "react";
 
 import { Field } from "../../../components/Field";
 import { Text } from "../../../components/Text";
@@ -20,31 +19,16 @@ export const GET_QUEST_BY_CATEGORY = (id?: number) => {
 
 interface Props {
   id?: number;
-  setCategory: Dispatch<SetStateAction<CategoryID>>;
+  handleInputChange: (key: number, event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function Quest({ id, setCategory }: Props) {
+export function Quest({ id, handleInputChange }: Props) {
   const { data, loading } = useQuery<{ questsByCategory: [QuestProps] }>(
     GET_QUEST_BY_CATEGORY(parseFloat(`${id}`))
   );
 
   if (loading) return <Text>Carregando...</Text>;
 
-  function handleInputChange(
-    key: number,
-    event: ChangeEvent<HTMLInputElement>
-  ) {
-    event.target.setCustomValidity("");
-
-    const [alternative, category, level] = event.target.value.split(",");
-
-    setCategory({
-      key,
-      id: Number(category),
-      level: Number(level),
-      alternative: Number(alternative),
-    });
-  }
 
   return (
     <Field>

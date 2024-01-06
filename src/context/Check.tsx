@@ -14,11 +14,11 @@ function CheckProvider({ children }: PropsWithChildren) {
   const [response, setResponse] = usePersistedState("response", 1);
 
   function endPoint(categories: CategoryID[]) {
-    if (categories.some((item) => item.level == 4)) {
+    if (categories.some((item) => item.levels?.includes(4))) {
       setResponse(4);
-    } else if (categories.some((item) => item.level == 3)) {
+    } else if (categories.some((item) => item.levels?.includes(3))) {
       setResponse(3);
-    } else if (categories.some((item) => item.level == 2)) {
+    } else if (categories.some((item) => item.levels?.includes(2))) {
       setResponse(2);
     } else setResponse(1);
   }

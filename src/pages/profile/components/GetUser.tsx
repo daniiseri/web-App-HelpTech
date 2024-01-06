@@ -17,7 +17,11 @@ const UPDATE_USER = gql`
 `;
 
 export function GetUser() {
-  const { user, signIn } = useAuth();
+  const { user, signIn, loading } = useAuth();
+
+  if(loading || !user){
+    return <h1>Carregando...</h1>;
+  }
 
   const { id } = user;
 

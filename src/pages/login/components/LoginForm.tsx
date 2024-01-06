@@ -8,21 +8,22 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/Auth";
 import { FormEvent, useState } from "react";
 
-import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineLoading, AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 
 export function LoginForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, loading } = useAuth();
 
-  function handle(event: FormEvent) {
+  async function handle(event: FormEvent) {
     event.preventDefault();
 
-    signIn({ email, password });
+    await signIn({ email, password });
 
-    navigate("/");
+    navigate('/')
+    location.reload()
   }
 
   return (
@@ -42,8 +43,22 @@ export function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button type="submit">
-        <AiOutlineLogin />
-        Entrar
+        {
+          loading
+            ?
+            (
+              <>
+                <AiOutlineLoading />
+                Carregando...
+              </>
+            )
+            : (
+              <>
+                <AiOutlineLogin />
+                Entrar
+              </>
+            )
+        }
       </Button>
       <SecundaryButton type="button" onClick={() => navigate("/register")}>
         <AiOutlineUserAdd />

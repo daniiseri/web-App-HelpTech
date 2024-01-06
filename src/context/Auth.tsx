@@ -1,51 +1,87 @@
-import { createContext, PropsWithChildren, useContext } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useEffect, useState } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { usePersistedState } from "../hooks/usePersistedState";
+import { client } from "../lib/ApolloClient";
 
 const LOGIN = gql`
   mutation ($password: String!, $email: String!) {
     login(password: $password, email: $email) {
-      roles
       token
-      user {
-        id
-        name
-        email
-        password
-      }
     }
   }
 `;
+
+const USER = gql`
+  query UserById {
+    userById {
+      id
+      email
+      password
+      name  
+    }
+  }
+`
+
+const ROLES = gql`
+  query RolesByUser {
+    rolesByUser {
+      description
+      id
+    }
+  }
+`
 
 interface ILogin {
   email: string;
   password: string;
 }
 
-interface IUser {
+export interface IUser {
   id: number;
   name: string;
   email: string;
   password: string;
 }
 
+export interface IRole {
+  id: number;
+  description: string
+}
+
 interface IAuth {
-  user: IUser;
-  token: string;
-  roles: string;
-  signIn({}: ILogin): void;
+  user: IUser | null;
+  setUser: Dispatch<SetStateAction<IUser | null>>
+  token: string | null;
+  roles: IRole[] | null;
+  setRoles: Dispatch<SetStateAction<IRole[] | null>>
+  signIn({ }: ILogin): Promise<void>;
   signOut(): void;
+  loading: boolean
 }
 
 const AuthContext = createContext({} as IAuth);
 
 function AuthProvider({ children }: PropsWithChildren) {
   const [login] = useMutation(LOGIN);
-  const [user, setUser] = usePersistedState<IUser>("user", {} as IUser);
-  const [roles, setRole] = usePersistedState<string>("roles", "");
-  const [token, setToken] = usePersistedState<string>("token", "");
+  const { data: userData } = useQuery<{ userById: IUser }>(USER);
+  const { data: rolesData } = useQuery<{ rolesByUser: IRole[] }>(ROLES);
+  const [user, setUser] = usePersistedState<IUser | null>("user", null);
+  const [roles, setRoles] = usePersistedState<IRole[] | null>("roles", null);
+  const [token, setToken] = usePersistedState<string | null>("token", null);
+  const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (token && userData && rolesData) {
+      console.log('USER = ', userData);
+
+      setUser(userData.userById)
+      setRoles(rolesData.rolesByUser)
+    }
+  }, [token, userData, rolesData])
 
   async function signIn({ email, password }: ILogin) {
+    setLoading(true)
+
     await login({
       variables: {
         email,
@@ -55,13 +91,13 @@ function AuthProvider({ children }: PropsWithChildren) {
       onCompleted: (data) => {
         const { login } = data;
 
-        const { token, user, roles } = login;
+        const { token } = login;
 
-        setUser(user);
-        setRole(roles);
-        setToken(token);
-      },
+        setToken(token)
+      }
     });
+
+    setLoading(false)
   }
 
   async function signOut() {
@@ -72,10 +108,13 @@ function AuthProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         roles,
+        setRoles,
         token,
         signIn,
         signOut,
+        loading
       }}
     >
       {children}

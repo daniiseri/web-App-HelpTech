@@ -7,7 +7,7 @@ export function Cooler() {
   const [cooler, setCooler] = useState<HardwareProps[]>([]);
 
   useEffect(() => {
-    fetch("https://api-puppeteer.herokuapp.com/cooler")
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/cooler`)
       .then((response) => response.json())
       .then((data) => setCooler(data));
   }, []);

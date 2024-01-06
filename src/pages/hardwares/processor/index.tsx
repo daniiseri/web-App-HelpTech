@@ -10,7 +10,7 @@ export function Processor() {
   const { response } = useCheck();
 
   useEffect(() => {
-    fetch(`https://api-puppeteer.herokuapp.com/processor/${response}`)
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/processor/${response}`)
       .then((response) => response.json())
       .then((data) => setProcessor(data));
   }, []);

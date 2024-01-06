@@ -6,7 +6,7 @@ function usePersistedState<T>(key: string, initialState: T): IResponse<T> {
   const [state, setState] = useState(() => {
     const storage = localStorage.getItem(key);
 
-    if (storage) return JSON.parse(storage);
+    if (storage && storage !== "undefined") return JSON.parse(storage);
     else return initialState;
   });
 

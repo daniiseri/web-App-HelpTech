@@ -47,7 +47,7 @@ function Auth({ setHidden }: AuthProps) {
       >
         <AiFillHome className="text-bronw-100" />
       </NavLink>
-      {roles == "Admin" && (
+      {roles?.find(({description}) => description === "Admin") && (
         <>
           <NavLink
             to="/category"

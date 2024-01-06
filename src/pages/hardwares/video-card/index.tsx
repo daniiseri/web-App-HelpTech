@@ -11,7 +11,7 @@ export function VideoCard() {
   const { response } = useCheck();
 
   useEffect(() => {
-    fetch(`https://api-puppeteer.herokuapp.com/video-card/${response}`)
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/video-card/${response}`)
       .then((response) => response.json())
       .then((data) => setVideoCard(data));
   }, []);

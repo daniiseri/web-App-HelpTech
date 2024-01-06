@@ -10,7 +10,7 @@ export function HardDisc() {
   const { response } = useCheck();
 
   useEffect(() => {
-    fetch(`https://api-puppeteer.herokuapp.com/hard-disc/${response}`)
+    fetch(`${import.meta.env.VITE_PUPPETEER_URL}/hard-disc/${response}`)
       .then((response) => response.json())
       .then((data) => setHardDisc(data));
   }, []);

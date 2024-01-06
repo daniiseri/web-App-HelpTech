@@ -3,7 +3,7 @@ import { AlternativeProps } from "../../alternative/components/GetAlternative";
 import { gql, useQuery } from "@apollo/client";
 import { Field } from "../../../components/Field";
 import { Input } from "../../../components/Input";
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes } from "react";
 import { Text } from "../../../components/Text";
 
 const GET_ALTERNATIVE_BY_QUEST = (id?: number) => gql`
@@ -36,7 +36,7 @@ export function Alternatives({ questId, ...props }: AlternativeInputProps) {
           <Field key={alternative.id}>
             <Input
               id={`${alternative.id}`}
-              type="radio"
+              type="checkbox"
               name={`${questId}`}
               value={`${alternative.id},${alternative.idcategory},${alternative.level}`}
               {...props}
